@@ -212,7 +212,7 @@ Please
 <a href="https://www.lipsum.com" id="wd-lipsum"> click here</a>
 to get dummy text<br/>
 
-<a href="https://www.lipsum.com" id="wd-github">Github code repository</a><br/>
+<a href="https://github.com/imnishitha/kambaz-react-web-app" id="wd-github">Github code repository</a><br/>
        </div>
        
 
