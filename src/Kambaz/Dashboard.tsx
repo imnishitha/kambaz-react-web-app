@@ -52,7 +52,7 @@ export default function Dashboard() {
           <Link to="/Kambaz/Courses/1236/Home" className="wd-dashboard-course-link">
             <img src="/images/c++.png" width={200} alt="C++" />
             <div>
-              <h5>CS1236 C++s</h5>
+              <h5>CS1236 Programming in C++</h5>
               <p className="wd-dashboard-course-title">
                 Introduction to C++
               </p>

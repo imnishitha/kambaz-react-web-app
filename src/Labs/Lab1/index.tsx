@@ -65,39 +65,87 @@ export default function Lab1() {
 
             </div>
             <div id="wd-tables">
-                <h4>Table Tag</h4>
-                <table border={1} width="100%">
-                    <thead>
-                        <tr>
-                            <th>Quiz</th>
-                            <th>Topic</th>
-                            <th>Date</th>
-                            <th>Grade</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Q1</td>
-                            <td>HTML</td>
-                            <td>2/3/21</td>
-                            <td>85</td>
-                        </tr>
-                        <tr>
-                            <td>Q2</td>
-                            <td>CSS</td>
-                            <td>2/10/21</td>
-                            <td>90</td>
-                        </tr>
-                        <tr> ... </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colSpan={3}>Average</td>
-                            <td>90</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+  <h4>Table Tag</h4>
+  <table border={1} width="100%">
+    <thead>
+      <tr>
+        <th>Quiz</th>
+        <th>Topic</th>
+        <th>Date</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Q1</td>
+        <td>HTML</td>
+        <td>2/3/21</td>
+        <td>85</td>
+      </tr>
+      <tr>
+        <td>Q2</td>
+        <td>CSS</td>
+        <td>2/10/21</td>
+        <td>90</td>
+      </tr>
+      <tr>
+        <td>Q3</td>
+        <td>JavaScript</td>
+        <td>2/17/21</td>
+        <td>88</td>
+      </tr>
+      <tr>
+        <td>Q4</td>
+        <td>React</td>
+        <td>2/24/21</td>
+        <td>92</td>
+      </tr>
+      <tr>
+        <td>Q5</td>
+        <td>Routing</td>
+        <td>3/3/21</td>
+        <td>87</td>
+      </tr>
+      <tr>
+        <td>Q6</td>
+        <td>Redux</td>
+        <td>3/10/21</td>
+        <td>91</td>
+      </tr>
+      <tr>
+        <td>Q7</td>
+        <td>Node.js</td>
+        <td>3/17/21</td>
+        <td>89</td>
+      </tr>
+      <tr>
+        <td>Q8</td>
+        <td>MongoDB</td>
+        <td>3/24/21</td>
+        <td>93</td>
+      </tr>
+      <tr>
+        <td>Q9</td>
+        <td>Authentication</td>
+        <td>3/31/21</td>
+        <td>86</td>
+      </tr>
+      <tr>
+        <td>Q10</td>
+        <td>Deployment</td>
+        <td>4/7/21</td>
+        <td>94</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colSpan={3}>Average</td>
+        <td>89.5</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
             <div id="wd-images">
                 <h4>Image tag</h4>
                 Loading an image from the internet: <br />
@@ -122,7 +170,6 @@ export default function Lab1() {
            value="Wonderland"
            title="The last name"
            id="wd-text-fields-last-name" />
-    {/* copy rest of form elements here  */}
   </form>
 </div>
 <h5>Text boxes</h5>
@@ -134,6 +181,8 @@ export default function Lab1() {
         id="wd-all-good">
   Hello World!
 </button>
+<br></br>
+<input type="file" />
 <h5 id="wd-radio-buttons">Radio buttons</h5>
 
 <label>Favorite movie genre:</label><br />
@@ -211,8 +260,9 @@ export default function Lab1() {
 Please
 <a href="https://www.lipsum.com" id="wd-lipsum"> click here</a>
 to get dummy text<br/>
-
-<a href="https://github.com/imnishitha/kambaz-react-web-app" id="wd-github">Github code repository</a><br/>
+<br />
+<br /> 
+<a href="https://github.com/imnishitha/kambaz-react-web-app" id="wd-github">Link to GitHub code repository</a><br/>
        </div>
        
 
