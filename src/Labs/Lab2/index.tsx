@@ -10,7 +10,7 @@ import BackgroundColors from "./BackgroundColors";
 import Zindex from "./Zindex";
 import Float from "./Float";
 import GridLayout from "./GridLayout";
-import Flex from "./FLex";
+import Flex from "./Flex";
 import ReactIconsSampler from "./ReactIcons";
 import { Container } from "react-bootstrap";
 import BootstrapGrids from "./BootstrapGrids";
