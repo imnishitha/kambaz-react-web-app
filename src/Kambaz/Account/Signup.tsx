@@ -28,7 +28,7 @@ export default function Signup() {
       />
       <Button
         id="wd-signup-btn"
-        as={Link as React.ElementType} 
+        as={Link as any} 
         to="/Kambaz/Account/Profile" 
         className="w-100 mb-2" 
         variant="primary" 

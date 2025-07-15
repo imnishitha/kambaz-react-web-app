@@ -2,6 +2,7 @@ import { Form, Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaCalendarAlt } from "react-icons/fa"; 
 
+
 export default function Profile() {
   return (
     <div id="wd-profile-screen" style={{ maxWidth: '350px' }}> 
@@ -70,7 +71,7 @@ export default function Profile() {
 
       <Button
         id="wd-signout-btn"
-        as={Link as React.ElementType}
+        as={Link as any}
         to="/Kambaz/Account/Signin"
         className="w-100 mb-2"
         variant="danger"
