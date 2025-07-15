@@ -70,7 +70,7 @@ export default function Profile() {
 
       <Button
         id="wd-signout-btn"
-        as={Link}
+        as={Link as React.ElementType}
         to="/Kambaz/Account/Signin"
         className="w-100 mb-2"
         variant="danger"
