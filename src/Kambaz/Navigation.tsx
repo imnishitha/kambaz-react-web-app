@@ -4,6 +4,7 @@ import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
 import { ListGroup } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
+import { TfiWrite } from "react-icons/tfi";
 
 export default function KambazNavigation() {
   const location = useLocation();
@@ -104,6 +105,20 @@ export default function KambazNavigation() {
         <LiaCogSolid className="fs-1 text-danger" />
         <div>Settings</div>
       </ListGroup.Item>
+
+      <ListGroup.Item
+        as={Link}
+        to="/Labs"
+        className={`border-0 ${
+          isActive("/Labs")
+            ? "bg-white text-danger"
+            : "bg-black text-white"
+        }`}
+      >
+        <TfiWrite className="fs-1 text-danger" />
+        <div>Labs</div>
+      </ListGroup.Item>
+
     </ListGroup>
   );
 }
