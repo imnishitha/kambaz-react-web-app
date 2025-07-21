@@ -27,7 +27,7 @@ export default function Dashboard() {
               >
                 <Card.Img variant="top" src={course.image} height={140} />
                 <Card.Body>
-                  <Card.Title className="text-truncate">{course.title}</Card.Title>
+                  <Card.Title className="text-truncate">{course.name}</Card.Title>
                   <Card.Text style={{ height: 60 }}>{course.description}</Card.Text>
                   <Button variant="primary">Go</Button>
                 </Card.Body>
