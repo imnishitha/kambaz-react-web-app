@@ -1,0 +1,163 @@
+[
+    {
+      "_id": "M101",
+      "name": "Week 1: Introduction to Python",
+      "description": "Getting started with Python programming",
+      "course": "1233",
+      "lessons": [
+        { "_id": "L101", "name": "Installing Python", "description": "", "module": "M101" },
+        { "_id": "L102", "name": "Hello World Program", "description": "", "module": "M101" },
+        { "_id": "L103", "name": "Data Types and Variables", "description": "", "module": "M101" }
+      ]
+    },
+    {
+      "_id": "M102",
+      "name": "Week 2: Control Flow",
+      "description": "Learn if-else, loops, and logic",
+      "course": "1233",
+      "lessons": [
+        { "_id": "L104", "name": "If-Else Statements", "description": "", "module": "M102" },
+        { "_id": "L105", "name": "For and While Loops", "description": "", "module": "M102" },
+        { "_id": "L106", "name": "Logical Operators", "description": "", "module": "M102" }
+      ]
+    },
+  
+    {
+      "_id": "M201",
+      "name": "Week 1: Introduction to React",
+      "description": "Understanding the basics of React.js",
+      "course": "1234",
+      "lessons": [
+        { "_id": "L201", "name": "What is React?", "description": "", "module": "M201" },
+        { "_id": "L202", "name": "JSX Syntax", "description": "", "module": "M201" },
+        { "_id": "L203", "name": "Functional Components", "description": "", "module": "M201" }
+      ]
+    },
+    {
+      "_id": "M202",
+      "name": "Week 2: State and Props",
+      "description": "Learn about state management and passing data",
+      "course": "1234",
+      "lessons": [
+        { "_id": "L204", "name": "Props in React", "description": "", "module": "M202" },
+        { "_id": "L205", "name": "useState Hook", "description": "", "module": "M202" },
+        { "_id": "L206", "name": "Lifting State Up", "description": "", "module": "M202" }
+      ]
+    },
+  
+    {
+      "_id": "M301",
+      "name": "Week 1: JavaScript Basics",
+      "description": "Foundational concepts of JavaScript",
+      "course": "1235",
+      "lessons": [
+        { "_id": "L301", "name": "Variables and Data Types", "description": "", "module": "M301" },
+        { "_id": "L302", "name": "Operators and Expressions", "description": "", "module": "M301" },
+        { "_id": "L303", "name": "Control Structures", "description": "", "module": "M301" }
+      ]
+    },
+    {
+      "_id": "M302",
+      "name": "Week 2: Functions and Scope",
+      "description": "Understanding JS functions and scopes",
+      "course": "1235",
+      "lessons": [
+        { "_id": "L304", "name": "Function Declarations", "description": "", "module": "M302" },
+        { "_id": "L305", "name": "Arrow Functions", "description": "", "module": "M302" },
+        { "_id": "L306", "name": "Scope and Closures", "description": "", "module": "M302" }
+      ]
+    },
+  
+    {
+      "_id": "M401",
+      "name": "Week 1: Basics of C++",
+      "description": "Introduction to C++ programming",
+      "course": "1236",
+      "lessons": [
+        { "_id": "L401", "name": "Syntax and Structure", "description": "", "module": "M401" },
+        { "_id": "L402", "name": "Data Types and Variables", "description": "", "module": "M401" },
+        { "_id": "L403", "name": "Input and Output", "description": "", "module": "M401" }
+      ]
+    },
+    {
+      "_id": "M402",
+      "name": "Week 2: Functions and OOP",
+      "description": "Functions and Object-Oriented Programming in C++",
+      "course": "1236",
+      "lessons": [
+        { "_id": "L404", "name": "Functions", "description": "", "module": "M402" },
+        { "_id": "L405", "name": "Classes and Objects", "description": "", "module": "M402" },
+        { "_id": "L406", "name": "Constructors and Destructors", "description": "", "module": "M402" }
+      ]
+    },
+  
+    {
+      "_id": "M501",
+      "name": "Week 1: Kubernetes Overview",
+      "description": "Core concepts of Kubernetes",
+      "course": "1237",
+      "lessons": [
+        { "_id": "L501", "name": "What is Kubernetes?", "description": "", "module": "M501" },
+        { "_id": "L502", "name": "K8s Architecture", "description": "", "module": "M501" },
+        { "_id": "L503", "name": "Pods and Deployments", "description": "", "module": "M501" }
+      ]
+    },
+    {
+      "_id": "M502",
+      "name": "Week 2: Services and Volumes",
+      "description": "Learn about networking and storage in K8s",
+      "course": "1237",
+      "lessons": [
+        { "_id": "L504", "name": "Services and Ingress", "description": "", "module": "M502" },
+        { "_id": "L505", "name": "Persistent Volumes", "description": "", "module": "M502" },
+        { "_id": "L506", "name": "ConfigMaps and Secrets", "description": "", "module": "M502" }
+      ]
+    },
+  
+    {
+      "_id": "M601",
+      "name": "Week 1: Introduction to AWS",
+      "description": "Fundamentals of AWS cloud",
+      "course": "1238",
+      "lessons": [
+        { "_id": "L601", "name": "Cloud Concepts", "description": "", "module": "M601" },
+        { "_id": "L602", "name": "AWS Global Infrastructure", "description": "", "module": "M601" },
+        { "_id": "L603", "name": "IAM Basics", "description": "", "module": "M601" }
+      ]
+    },
+    {
+      "_id": "M602",
+      "name": "Week 2: Core AWS Services",
+      "description": "Exploring major AWS offerings",
+      "course": "1238",
+      "lessons": [
+        { "_id": "L604", "name": "Amazon EC2", "description": "", "module": "M602" },
+        { "_id": "L605", "name": "Amazon S3", "description": "", "module": "M602" },
+        { "_id": "L606", "name": "AWS Lambda", "description": "", "module": "M602" }
+      ]
+    },
+  
+    {
+      "_id": "M701",
+      "name": "Week 1: SQL Basics",
+      "description": "Intro to databases and SQL",
+      "course": "1239",
+      "lessons": [
+        { "_id": "L701", "name": "Relational Databases", "description": "", "module": "M701" },
+        { "_id": "L702", "name": "Basic SQL Queries", "description": "", "module": "M701" },
+        { "_id": "L703", "name": "Filtering and Sorting", "description": "", "module": "M701" }
+      ]
+    },
+    {
+      "_id": "M702",
+      "name": "Week 2: Intermediate SQL",
+      "description": "Join queries, indexing, and constraints",
+      "course": "1239",
+      "lessons": [
+        { "_id": "L704", "name": "Joins", "description": "", "module": "M702" },
+        { "_id": "L705", "name": "Primary & Foreign Keys", "description": "", "module": "M702" },
+        { "_id": "L706", "name": "Indexes and Views", "description": "", "module": "M702" }
+      ]
+    }
+  ]
+  
