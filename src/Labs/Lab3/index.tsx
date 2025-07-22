@@ -1,6 +1,7 @@
 import Add from "./Add";
 import AddingAndRemovingToFromArrays from "./AddingAndRemovingToFromArrays";
 import ArrayIndexAndLength from "./ArrayIndexAndLength";
+import ArrowFunctions from "./ArrowFunctions";
 import BooleanVariables from "./BooleanVariables";
 import Classes from "./Classes";
 import ConditionalOutputIfElse from "./ConditionalOutputIfElse";
@@ -44,6 +45,7 @@ export default function Lab3() {
       <ConditionalOutputIfElse/>
       <ConditionalOutputInline/>
       <LegacyFunctions/>
+      <ArrowFunctions/>
       <ImpliedReturn/>
       <TemplateLiterals/>
       <SimpleArrays/>
