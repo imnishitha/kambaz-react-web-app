@@ -74,7 +74,7 @@ export default function AssignmentEditor() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { id, value, type, checked, name } = e.target as HTMLInputElement;
+    const { id, value, checked, name } = e.target as HTMLInputElement;
 
     setAssignment((prev: any) => {
       let updatedValue: any;
