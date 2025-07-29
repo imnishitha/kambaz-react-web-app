@@ -36,7 +36,7 @@ const assignmentsSlice = createSlice({
         state[index] = action.payload;
       }
     },
-    setAssignments: (state, action: PayloadAction<Assignment[]>) => {
+    setAssignments: (_state, action: PayloadAction<Assignment[]>) => {
       return action.payload;
     },
   },

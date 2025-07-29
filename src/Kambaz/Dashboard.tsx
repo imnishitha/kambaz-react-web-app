@@ -36,7 +36,7 @@ export default function Dashboard(
       <hr />
 
       <hr />
-      <h2 id="wd-dashboard-published">Published Courses ({courses.filter((course) =>
+      <h2 id="wd-dashboard-published">Published Courses ({courses.filter((_course) =>
       enrollments.some(
         (enrollment) =>
           enrollment.user === currentUser._id 
@@ -51,7 +51,7 @@ export default function Dashboard(
           justifyContent: "start",
         }}
       >
-        {courses.filter((course) =>
+        {courses.filter((_course) =>
       enrollments.some(
         (enrollment) =>
           enrollment.user === currentUser._id 
