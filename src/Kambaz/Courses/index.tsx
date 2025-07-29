@@ -7,9 +7,11 @@ import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import { courses } from "../Database";
+import { Provider } from "react-redux";
+import store from "../store";
 
 
-export default function Courses() {
+export default function Courses({ courses }: { courses: any[]; }) {
 
   const { cid } = useParams();
   const course = courses.find((course) => course.id === cid);
@@ -26,6 +28,7 @@ export default function Courses() {
           <CourseNavigation />
         </div>
         <div className="flex-fill">
+        <Provider store={store}>
           <Routes>
             <Route path="Home" element={<Home />} />
             <Route path="Modules" element={<Modules />} />
@@ -33,6 +36,7 @@ export default function Courses() {
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route path="People" element={<PeopleTable />} />
           </Routes>
+          </Provider>
         </div></div>
     </div>
 
