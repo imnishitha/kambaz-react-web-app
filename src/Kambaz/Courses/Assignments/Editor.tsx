@@ -1,15 +1,124 @@
-import { Form, Row, Col, InputGroup, FormControl } from "react-bootstrap";
+
+import { Form, Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import { FaCalendarAlt, FaTimes } from "react-icons/fa";
-import { useParams, Link } from "react-router-dom";
-import * as db from "../../Database";
+import { useParams, useNavigate } from "react-router-dom"; 
+import { useSelector, useDispatch } from "react-redux";
+import { updateAssignment } from "./reducer";
+import { useState, useEffect } from "react";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams<{ cid: string; aid: string }>();
-  const assignment = db.assignments.find((a) => a._id === aid);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  if (!assignment) {
+
+  const allAssignments = useSelector((state: any) => state.assignmentsReducer);
+
+
+  const foundAssignmentInStore = allAssignments.find((a: any) => a._id === aid);
+
+  const [assignment, setAssignment] = useState(() => {
+    if (foundAssignmentInStore) {
+      return foundAssignmentInStore;
+    } else if (aid && cid) {
+      return {
+        _id: aid,
+        title: "New Assignment",
+        course: cid,
+        description: "New Assignment Description",
+        points: 100,
+        dueDate: new Date().toISOString().slice(0, 10), 
+        availableFrom: new Date().toISOString().slice(0, 10),
+        untilDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().slice(0, 10), // One year from now
+        group: "ASSIGNMENTS",
+        displayGradeAs: "Percentage",
+        submissionType: "Online",
+        onlineEntryOptions: ["Text Entry"],
+        assignTo: "Everyone",
+        available: true,
+      };
+    }
+
+    return null;
+  });
+
+
+  useEffect(() => {
+    if (foundAssignmentInStore && (assignment?._id !== foundAssignmentInStore._id)) {
+      setAssignment(foundAssignmentInStore);
+    }
+  }, [foundAssignmentInStore, assignment]);
+
+
+
+  if (aid && !assignment) {
     return <div className="p-3">Assignment not found</div>;
   }
+
+
+  if (!assignment) {
+    return <div className="p-3">Invalid Assignment Access</div>;
+  }
+
+
+  const handleSave = () => {
+    if (assignment) {
+
+      dispatch(updateAssignment(assignment));
+      navigate(`/Kambaz/Courses/${cid}/Assignments`);
+    }
+  };
+
+  const handleCancel = () => {
+    navigate(`/Kambaz/Courses/${cid}/Assignments`);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { id, value, type, checked, name } = e.target as HTMLInputElement;
+
+    setAssignment((prev: any) => {
+      let updatedValue: any;
+      let fieldName: string;
+
+      switch (id) {
+        case 'wd-name': fieldName = 'title'; break;
+        case 'wd-description': fieldName = 'description'; break;
+        case 'wd-points': fieldName = 'points'; updatedValue = parseFloat(value); break;
+        case 'wd-assignment-group': fieldName = 'group'; break;
+        case 'wd-display-grade-as': fieldName = 'displayGradeAs'; break;
+        case 'wd-submission-type': fieldName = 'submissionType'; break;
+        case 'wd-assign-to': fieldName = 'assignTo'; break; 
+        case 'wd-due-date': fieldName = 'dueDate'; break;
+        case 'wd-available-from': fieldName = 'availableFrom'; break;
+        case 'wd-until-date': fieldName = 'untilDate'; break;
+        default: fieldName = ''; break; 
+      }
+
+      if (name === "online-entry-options") {
+        const onlineEntryOptions = prev.onlineEntryOptions ? [...prev.onlineEntryOptions] : [];
+        if (checked) {
+          if (!onlineEntryOptions.includes(value)) {
+            onlineEntryOptions.push(value);
+          }
+        } else {
+          const index = onlineEntryOptions.indexOf(value);
+          if (index > -1) {
+            onlineEntryOptions.splice(index, 1);
+          }
+        }
+        return {
+          ...prev,
+          onlineEntryOptions,
+        };
+      } else if (fieldName) {
+        return {
+          ...prev,
+          [fieldName]: updatedValue !== undefined ? updatedValue : value,
+        };
+      }
+      return prev; 
+    });
+  };
 
   return (
     <div id="wd-assignments-editor" className="p-3">
@@ -17,7 +126,11 @@ export default function AssignmentEditor() {
         <Form.Label htmlFor="wd-name" className="fw-bold">
           Assignment Name
         </Form.Label>
-        <FormControl id="wd-name" defaultValue={assignment.title} />
+        <FormControl
+          id="wd-name"
+          value={assignment.title || ''}
+          onChange={handleChange}
+        />
       </Form.Group>
 
       <hr className="my-4" />
@@ -33,7 +146,8 @@ export default function AssignmentEditor() {
           id="wd-description"
           as="textarea"
           rows={7}
-          defaultValue={assignment.description || ""}
+          value={assignment.description || ""}
+          onChange={handleChange}
         />
       </Form.Group>
 
@@ -44,11 +158,15 @@ export default function AssignmentEditor() {
           </Form.Label>
         </Form.Group>
         <Form.Group as={Col} xs={8}>
-          <FormControl id="wd-points" defaultValue={assignment.points} type="number" />
+          <FormControl
+            id="wd-points"
+            value={assignment.points || 0}
+            type="number"
+            onChange={handleChange}
+          />
         </Form.Group>
       </Row>
 
-      {/* Assignment Group */}
       <Row className="mb-3 align-items-center">
         <Form.Group as={Col} xs={4}>
           <Form.Label htmlFor="wd-assignment-group" className="text-end d-block">
@@ -56,7 +174,11 @@ export default function AssignmentEditor() {
           </Form.Label>
         </Form.Group>
         <Form.Group as={Col} xs={8}>
-          <Form.Select id="wd-assignment-group" defaultValue={assignment.group || "ASSIGNMENTS"}>
+          <Form.Select
+            id="wd-assignment-group"
+            value={assignment.group || "ASSIGNMENTS"}
+            onChange={handleChange}
+          >
             <option>ASSIGNMENTS</option>
             <option>QUIZZES</option>
             <option>EXAMS</option>
@@ -64,7 +186,7 @@ export default function AssignmentEditor() {
         </Form.Group>
       </Row>
 
-      {/* Display Grade as */}
+    
       <Row className="mb-3 align-items-center">
         <Form.Group as={Col} xs={4}>
           <Form.Label htmlFor="wd-display-grade-as" className="text-end d-block">
@@ -72,7 +194,11 @@ export default function AssignmentEditor() {
           </Form.Label>
         </Form.Group>
         <Form.Group as={Col} xs={8}>
-          <Form.Select id="wd-display-grade-as" defaultValue={assignment.displayGradeAs || "Percentage"}>
+          <Form.Select
+            id="wd-display-grade-as"
+            value={assignment.displayGradeAs || "Percentage"}
+            onChange={handleChange}
+          >
             <option>Percentage</option>
             <option>Points</option>
             <option>Complete/Incomplete</option>
@@ -80,7 +206,7 @@ export default function AssignmentEditor() {
         </Form.Group>
       </Row>
 
-      {/* Submission Type */}
+    
       <Row className="mb-3">
         <Form.Group as={Col} xs={4}>
           <Form.Label htmlFor="wd-submission-type" className="text-end d-block">
@@ -88,7 +214,11 @@ export default function AssignmentEditor() {
           </Form.Label>
         </Form.Group>
         <Form.Group as={Col} xs={8}>
-          <Form.Select id="wd-submission-type" defaultValue={assignment.submissionType || "Online"}>
+          <Form.Select
+            id="wd-submission-type"
+            value={assignment.submissionType || "Online"}
+            onChange={handleChange}
+          >
             <option>Online</option>
             <option>On Paper</option>
             <option>No Submission</option>
@@ -100,41 +230,51 @@ export default function AssignmentEditor() {
               id="wd-text-entry"
               label="Text Entry"
               name="online-entry-options"
-              defaultChecked={assignment.onlineEntryOptions?.includes("Text Entry")}
+              value="Text Entry"
+              checked={assignment.onlineEntryOptions?.includes("Text Entry")}
+              onChange={handleChange}
             />
             <Form.Check
               type="checkbox"
               id="wd-website-url"
               label="Website URL"
               name="online-entry-options"
-              defaultChecked={assignment.onlineEntryOptions?.includes("Website URL")}
+              value="Website URL"
+              checked={assignment.onlineEntryOptions?.includes("Website URL")}
+              onChange={handleChange}
             />
             <Form.Check
               type="checkbox"
               id="wd-media-recordings"
               label="Media Recordings"
               name="online-entry-options"
-              defaultChecked={assignment.onlineEntryOptions?.includes("Media Recordings")}
+              value="Media Recordings"
+              checked={assignment.onlineEntryOptions?.includes("Media Recordings")}
+              onChange={handleChange}
             />
             <Form.Check
               type="checkbox"
               id="wd-student-annotation"
               label="Student Annotation"
               name="online-entry-options"
-              defaultChecked={assignment.onlineEntryOptions?.includes("Student Annotation")}
+              value="Student Annotation"
+              checked={assignment.onlineEntryOptions?.includes("Student Annotation")}
+              onChange={handleChange}
             />
             <Form.Check
               type="checkbox"
               id="wd-file-uploads"
               label="File Uploads"
               name="online-entry-options"
-              defaultChecked={assignment.onlineEntryOptions?.includes("File Uploads")}
+              value="File Uploads"
+              checked={assignment.onlineEntryOptions?.includes("File Uploads")}
+              onChange={handleChange}
             />
           </div>
         </Form.Group>
       </Row>
 
-      {/* Assign To */}
+   
       <Row className="mb-3">
         <Form.Group as={Col} xs={4}>
           <Form.Label htmlFor="wd-assign-to" className="text-end d-block">
@@ -146,9 +286,10 @@ export default function AssignmentEditor() {
           <InputGroup className="mb-3">
             <FormControl
               id="wd-assign-to"
-              defaultValue={assignment.assignTo || "Everyone"}
+              value={assignment.assignTo || "Everyone"}
               readOnly
               className="bg-white"
+              onChange={handleChange}
             />
             <InputGroup.Text className="bg-light text-muted border-start-0">
               <FaTimes />
@@ -164,7 +305,8 @@ export default function AssignmentEditor() {
                 <FormControl
                   id="wd-due-date"
                   type="date"
-                  defaultValue={assignment.dueDate?.slice(0, 10) || ""}
+                  value={assignment.dueDate?.slice(0, 10) || ""}
+                  onChange={handleChange}
                 />
                 <InputGroup.Text className="bg-white border-start-0">
                   <FaCalendarAlt />
@@ -182,7 +324,8 @@ export default function AssignmentEditor() {
                     <FormControl
                       id="wd-available-from"
                       type="date"
-                      defaultValue={assignment.availableFrom?.slice(0, 10) || ""}
+                      value={assignment.availableFrom?.slice(0, 10) || ""}
+                      onChange={handleChange}
                     />
                     <InputGroup.Text className="bg-white border-start-0">
                       <FaCalendarAlt />
@@ -199,7 +342,8 @@ export default function AssignmentEditor() {
                     <FormControl
                       id="wd-until-date"
                       type="date"
-                      defaultValue={assignment.untilDate?.slice(0, 10) || ""}
+                      value={assignment.untilDate?.slice(0, 10) || ""}
+                      onChange={handleChange}
                     />
                     <InputGroup.Text className="bg-white border-start-0">
                       <FaCalendarAlt />
@@ -214,13 +358,12 @@ export default function AssignmentEditor() {
 
       <hr />
       <div className="d-flex justify-content-end">
-        {/* Use Link from react-router-dom for navigation */}
-        <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-light me-2 border">
+        <Button onClick={handleCancel} className="btn btn-light me-2 border">
           Cancel
-        </Link>
-        <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-danger">
+        </Button>
+        <Button onClick={handleSave} className="btn btn-danger">
           Save
-        </Link>
+        </Button>
       </div>
     </div>
   );
