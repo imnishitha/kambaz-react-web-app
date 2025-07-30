@@ -18,11 +18,12 @@ export default function Modules() {
 
   return (
     <div className="wd-modules">
+       <div className="d-flex justify-content-end mb-3">
       <ModulesControls moduleName={moduleName} setModuleName={setModuleName}
         addModule={() => {
           dispatch(addModule({ name: moduleName, course: cid }));
           setModuleName("");
-        }} />
+        }} /></div>
       <ListGroup className="rounded-0" id="wd-modules">
       {modules
           .filter((module: any) => module.course === cid)
