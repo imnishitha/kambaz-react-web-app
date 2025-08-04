@@ -1,42 +1,42 @@
 [
     {
-      "_id": "1234",
+      "id": "1234",
       "name": "CS1234 React JS",
       "description": "Full Stack software developer",
       "image": "/images/reactjs.jpg"
     },
     {
-      "_id": "1233",
+      "id": "1233",
       "name": "CS1233 Python Basics",
       "description": "Introduction to Python programming",
       "image": "/images/python.png"
     },
     {
-      "_id": "1235",
+      "id": "1235",
       "name": "CS1235 JavaScript Essentials",
       "description": "Introduction to JavaScript",
       "image": "/images/js.png"
     },
     {
-      "_id": "1236",
+      "id": "1236",
       "name": "CS1236 Programming in C++",
       "description": "Introduction to C++",
       "image": "/images/c++.png"
     },
     {
-      "_id": "1237",
+      "id": "1237",
       "name": "CS1237 Kubernetes Basics",
       "description": "Introduction to Kubernetes",
       "image": "/images/k8.png"
     },
     {
-      "_id": "1238",
+      "id": "1238",
       "name": "CS1238 AWS Cloud",
       "description": "Cloud computing fundamentals with AWS",
       "image": "/images/aws.png"
     },
     {
-      "_id": "1239",
+      "id": "1239",
       "name": "CS1239 SQL Databases",
       "description": "Relational database design",
       "image": "/images/sql.png"
