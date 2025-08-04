@@ -4,10 +4,12 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 import Profile from "./Profile";
 import AccountNavigation from "./Navigation";
+
 export default function Account() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
     return (
+     
         <div id="wd-account-screen">
           <h2>Account</h2>
         <table>
@@ -26,5 +28,6 @@ export default function Account() {
           </tr>
         </table>
       </div>
+     
   );}
   
