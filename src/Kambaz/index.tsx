@@ -47,7 +47,7 @@ export default function Kambaz() {
     await courseClient.updateCourse(course);
     setCourses(
       courses.map((c) => {
-        if (String(c._id) === String(course._id)) {
+        if (String(c.id) === String(course.id)) {
           return course;
         } else {
           return c;
