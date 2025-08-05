@@ -60,7 +60,7 @@ export default function Dashboard(
             <div key={course.id} className="wd-dashboard-course">
               <Card>
                 <Link
-                  to={`/Kambaz/Courses/${encodeURIComponent(course.id)}/Home`}
+                  to={`/Kambaz/Courses/${encodeURIComponent(course._id)}/Home`}
                   className="text-decoration-none text-dark"
                 >
                   <Card.Img variant="top" src={course.image} height={140} />
