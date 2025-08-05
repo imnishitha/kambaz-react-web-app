@@ -1,5 +1,5 @@
 import CourseNavigation from "./Navigation";
-import { Route, Routes, useParams, useLocation } from "react-router";
+import { Route, Routes, useParams, useLocation } from "react-router-dom";
 import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
@@ -13,7 +13,7 @@ import store from "../store";
 export default function Courses({ courses }: { courses: any[]; }) {
 
   const { cid } = useParams();
-  const course = courses.find((course) => course.id === cid);
+  const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
 
 

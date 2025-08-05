@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import Session from "./Account/Session";
 import { useSelector } from "react-redux";
-import * as courseClient from "./Courses/Client";
+import * as courseClient from "./Courses/client";
 
 export default function Kambaz() {
 
@@ -47,7 +47,7 @@ export default function Kambaz() {
     await courseClient.updateCourse(course);
     setCourses(
       courses.map((c) => {
-        if (String(c.id) === String(course.id)) {
+        if (String(c._id) === String(course._id)) {
           return course;
         } else {
           return c;
