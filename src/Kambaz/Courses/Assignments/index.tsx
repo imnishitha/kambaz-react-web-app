@@ -1,4 +1,3 @@
-
 import {
   Button,
   FormControl,
@@ -18,20 +17,30 @@ import {
 } from "react-icons/ai";
 import { LuGripVertical } from "react-icons/lu";
 import { FaCaretDown } from "react-icons/fa";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addAssignment,
-  deleteAssignment,
-} from "./reducer"; 
-import { useState } from "react";
+import { addAssignment, deleteAssignment, setAssignments } from "./reducer";
+import * as client from "./client"; 
+import { useState, useEffect } from "react";
 
 export default function Assignments() {
   const { cid } = useParams<{ cid: string }>();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const assignments = useSelector((state: any) => state.assignmentsReducer);
-  const courseAssignments = assignments.filter((a: any) => a.course === cid);
 
+  const fetchAssignments = async () => {
+    if (cid) {
+      const allAssignments = await client.findAssignmentsForCourse(cid);
+      dispatch(setAssignments(allAssignments));
+    }
+  };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, [cid]);
+
+  const courseAssignments = assignments.filter((a: any) => a.course === cid);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
 
@@ -45,17 +54,17 @@ export default function Assignments() {
     setShowDeleteModal(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (assignmentToDelete) {
+      await client.deleteAssignment(assignmentToDelete);
       dispatch(deleteAssignment(assignmentToDelete));
       handleCloseDeleteModal();
     }
   };
 
-  const handleAddAssignment = () => {
-    if (!cid) return; 
-    const newAssignment = {
-      _id: new Date().getTime().toString(), 
+  const handleAddAssignment = async () => {
+    if (!cid) return;
+    const newAssignmentTemplate = {
       title: "New Assignment",
       course: cid,
       description: "New Assignment Description",
@@ -70,12 +79,14 @@ export default function Assignments() {
       assignTo: "Everyone",
       available: true,
     };
-    dispatch(addAssignment(newAssignment));
+    const createdAssignment = await client.createAssignmentForCourse(cid, newAssignmentTemplate);
+    dispatch(addAssignment(createdAssignment)); 
+    navigate(`/Kambaz/Courses/${cid}/Assignments/${createdAssignment._id}`); 
   };
 
   return (
     <div id="wd-assignments" className="p-3">
-      {/* Header */}
+      {/* ... (Header and Group Header sections) ... */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <InputGroup style={{ maxWidth: "300px" }}>
           <InputGroup.Text className="bg-white border-end-0">
@@ -99,7 +110,6 @@ export default function Assignments() {
         </div>
       </div>
 
-      {/* Group Header */}
       <div className="border border-secondary-subtle rounded-0 mb-3 bg-light p-2 ps-3 d-flex justify-content-between align-items-center fw-bold">
         <div className="d-flex align-items-center">
           <LuGripVertical className="text-muted me-2 fs-5" />
@@ -125,7 +135,6 @@ export default function Assignments() {
           <AiOutlineEllipsis className="text-muted fs-5" />
         </div>
       </div>
-
       {/* Assignment List */}
       <ListGroup className="rounded-0">
         {courseAssignments.map((assignment: any) => (
@@ -137,7 +146,6 @@ export default function Assignments() {
             <LuGripVertical className="text-muted me-2 fs-5" />
             <AiOutlineFileText className="text-muted me-2 fs-5" />
             <AiOutlineEdit className="text-muted me-3 fs-5" />
-
             <div className="flex-grow-1">
               <Link
                 to={`/Kambaz/Courses/${cid}/Assignments/${assignment._id}`}
@@ -167,7 +175,6 @@ export default function Assignments() {
           </ListGroup.Item>
         ))}
       </ListGroup>
-
       {/* Delete Confirmation Modal */}
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton>

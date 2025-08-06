@@ -1,9 +1,9 @@
-
 import { Form, Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import { FaCalendarAlt, FaTimes } from "react-icons/fa";
-import { useParams, useNavigate } from "react-router-dom"; 
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updateAssignment } from "./reducer";
+import { updateAssignment, setAssignments } from "./reducer";
+import * as client from "./client"; 
 import { useState, useEffect } from "react";
 
 export default function AssignmentEditor() {
@@ -12,59 +12,30 @@ export default function AssignmentEditor() {
   const navigate = useNavigate();
 
 
-  const allAssignments = useSelector((state: any) => state.assignmentsReducer);
-
-
-  const foundAssignmentInStore = allAssignments.find((a: any) => a._id === aid);
-
-  const [assignment, setAssignment] = useState(() => {
-    if (foundAssignmentInStore) {
-      return foundAssignmentInStore;
-    } else if (aid && cid) {
-      return {
-        _id: aid,
-        title: "New Assignment",
-        course: cid,
-        description: "New Assignment Description",
-        points: 100,
-        dueDate: new Date().toISOString().slice(0, 10), 
-        availableFrom: new Date().toISOString().slice(0, 10),
-        untilDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().slice(0, 10), // One year from now
-        group: "ASSIGNMENTS",
-        displayGradeAs: "Percentage",
-        submissionType: "Online",
-        onlineEntryOptions: ["Text Entry"],
-        assignTo: "Everyone",
-        available: true,
-      };
+  const [assignment, setAssignment] = useState<any>(null);
+  const fetchAssignmentById = async (id: string) => {
+    try {
+      const fetchedAssignment = await client.findAssignmentById(id);
+      setAssignment(fetchedAssignment);
+    } catch (error) {
+      console.error("Error fetching assignment:", error);
     }
-
-    return null;
-  });
-
+  };
 
   useEffect(() => {
-    if (foundAssignmentInStore && (assignment?._id !== foundAssignmentInStore._id)) {
-      setAssignment(foundAssignmentInStore);
+    if (aid) {
+      fetchAssignmentById(aid);
     }
-  }, [foundAssignmentInStore, assignment]);
-
-
-
-  if (aid && !assignment) {
+  }, [aid]); 
+  if (!assignment) {
     return <div className="p-3">Assignment not found</div>;
   }
 
 
-  if (!assignment) {
-    return <div className="p-3">Invalid Assignment Access</div>;
-  }
-
-
-  const handleSave = () => {
+  const handleSave = async () => {
     if (assignment) {
-
-      dispatch(updateAssignment(assignment));
+      await client.updateAssignment(assignment);
+      dispatch(updateAssignment(assignment)); // Update Redux state for immediate UI consistency
       navigate(`/Kambaz/Courses/${cid}/Assignments`);
     }
   };
@@ -79,7 +50,6 @@ export default function AssignmentEditor() {
     setAssignment((prev: any) => {
       let updatedValue: any;
       let fieldName: string;
-
       switch (id) {
         case 'wd-name': fieldName = 'title'; break;
         case 'wd-description': fieldName = 'description'; break;
@@ -93,7 +63,6 @@ export default function AssignmentEditor() {
         case 'wd-until-date': fieldName = 'untilDate'; break;
         default: fieldName = ''; break; 
       }
-
       if (name === "online-entry-options") {
         const onlineEntryOptions = prev.onlineEntryOptions ? [...prev.onlineEntryOptions] : [];
         if (checked) {
@@ -116,7 +85,7 @@ export default function AssignmentEditor() {
           [fieldName]: updatedValue !== undefined ? updatedValue : value,
         };
       }
-      return prev; 
+      return prev;
     });
   };
 
@@ -186,7 +155,6 @@ export default function AssignmentEditor() {
         </Form.Group>
       </Row>
 
-    
       <Row className="mb-3 align-items-center">
         <Form.Group as={Col} xs={4}>
           <Form.Label htmlFor="wd-display-grade-as" className="text-end d-block">
@@ -206,7 +174,6 @@ export default function AssignmentEditor() {
         </Form.Group>
       </Row>
 
-    
       <Row className="mb-3">
         <Form.Group as={Col} xs={4}>
           <Form.Label htmlFor="wd-submission-type" className="text-end d-block">
@@ -274,7 +241,6 @@ export default function AssignmentEditor() {
         </Form.Group>
       </Row>
 
-   
       <Row className="mb-3">
         <Form.Group as={Col} xs={4}>
           <Form.Label htmlFor="wd-assign-to" className="text-end d-block">
