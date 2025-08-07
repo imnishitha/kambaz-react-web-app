@@ -1,8 +1,8 @@
 import { Form, Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import { FaCalendarAlt, FaTimes } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { updateAssignment, setAssignments } from "./reducer";
+import { useDispatch } from "react-redux";
+import { updateAssignment  } from "./reducer";
 import * as client from "./client"; 
 import { useState, useEffect } from "react";
 

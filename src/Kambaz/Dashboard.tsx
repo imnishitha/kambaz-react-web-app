@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card, Button, FormControl, Dropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import * as db from "./Database";
 
 export default function Dashboard(
   { allCourses, enrolledCourses, course, setCourse,
@@ -21,8 +20,7 @@ export default function Dashboard(
 )
  {
 
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = db;
+  useSelector((state: any) => state.accountReducer);
   
   // Filter courses into enrolled and not-enrolled lists for the dropdowns
   const myCourses = allCourses.filter(c => enrolledCourseIds.has(c._id));
