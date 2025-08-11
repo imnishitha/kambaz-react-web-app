@@ -13,9 +13,9 @@ export default function AssignmentEditor() {
 
 
   const [assignment, setAssignment] = useState<any>(null);
-  const fetchAssignmentById = async (id: string) => {
+  const fetchAssignmentById = async (courseId: string, assignmentId: string) => { // Use both courseId and assignmentId
     try {
-      const fetchedAssignment = await client.findAssignmentById(id);
+      const fetchedAssignment = await client.findAssignmentById(courseId, assignmentId);
       setAssignment(fetchedAssignment);
     } catch (error) {
       console.error("Error fetching assignment:", error);
@@ -23,19 +23,19 @@ export default function AssignmentEditor() {
   };
 
   useEffect(() => {
-    if (aid) {
-      fetchAssignmentById(aid);
+    if (aid && cid) { // Fetch only if both are available
+      fetchAssignmentById(cid, aid);
     }
-  }, [aid]); 
+  }, [cid, aid]); // Re-run effect if either changes
+  
   if (!assignment) {
     return <div className="p-3">Assignment not found</div>;
   }
 
-
   const handleSave = async () => {
     if (assignment) {
       await client.updateAssignment(assignment);
-      dispatch(updateAssignment(assignment)); // Update Redux state for immediate UI consistency
+      dispatch(updateAssignment(assignment));
       navigate(`/Kambaz/Courses/${cid}/Assignments`);
     }
   };

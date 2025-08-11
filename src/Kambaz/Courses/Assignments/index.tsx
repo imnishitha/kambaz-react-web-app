@@ -22,6 +22,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { addAssignment, deleteAssignment, setAssignments } from "./reducer";
 import * as client from "./client"; 
 import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
 
 export default function Assignments() {
   const { cid } = useParams<{ cid: string }>();
@@ -55,8 +57,8 @@ export default function Assignments() {
   };
 
   const handleDelete = async () => {
-    if (assignmentToDelete) {
-      await client.deleteAssignment(assignmentToDelete);
+    if (assignmentToDelete && cid) {
+      await client.deleteAssignment(cid, assignmentToDelete);
       dispatch(deleteAssignment(assignmentToDelete));
       handleCloseDeleteModal();
     }
@@ -67,6 +69,7 @@ export default function Assignments() {
     const newAssignmentTemplate = {
       title: "New Assignment",
       course: cid,
+      _id: uuidv4(),
       description: "New Assignment Description",
       points: 100,
       dueDate: "2025-08-01",
@@ -86,7 +89,6 @@ export default function Assignments() {
 
   return (
     <div id="wd-assignments" className="p-3">
-      {/* ... (Header and Group Header sections) ... */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <InputGroup style={{ maxWidth: "300px" }}>
           <InputGroup.Text className="bg-white border-end-0">
@@ -193,3 +195,5 @@ export default function Assignments() {
     </div>
   );
 }
+
+

@@ -1,7 +1,5 @@
 import axios from "axios";
-
-
-const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER;
+const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER || "http://localhost:4000";
 const API_BASE = `${REMOTE_SERVER}/api/courses`;
 
 
@@ -27,13 +25,14 @@ export const findAssignmentsForCourse = async (courseId: string) => {
   return response.data;
 };
 
+// Pass courseId separately for a correct POST request
 export const createAssignmentForCourse = async (courseId: string, assignment: Omit<Assignment, '_id'>) => {
   const response = await axios.post<Assignment>(`${API_BASE}/${courseId}/assignments`, assignment);
   return response.data;
 };
 
-export const findAssignmentById = async (assignmentId: string) => {
-  const response = await axios.get<Assignment>(`${API_BASE}/undefined/assignments/${assignmentId}`);
+export const findAssignmentById = async (courseId: string, assignmentId: string) => {
+  const response = await axios.get<Assignment>(`${API_BASE}/${courseId}/assignments/${assignmentId}`);
   return response.data;
 };
 
@@ -42,7 +41,7 @@ export const updateAssignment = async (assignment: Assignment) => {
   return response.data;
 };
 
-export const deleteAssignment = async (assignmentId: string) => {
-  const response = await axios.delete(`${API_BASE}/undefined/assignments/${assignmentId}`);
+export const deleteAssignment = async (courseId: string, assignmentId: string) => {
+  const response = await axios.delete(`${API_BASE}/${courseId}/assignments/${assignmentId}`);
   return response.data;
 };

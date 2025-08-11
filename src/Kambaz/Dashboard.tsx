@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { Card, Button, FormControl, Dropdown } from "react-bootstrap";
+import { Card, Button, FormControl } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 export default function Dashboard(
   { allCourses, enrolledCourses, course, setCourse,
     addNewCourse, deleteCourse, updateCourse,
-    enroll, unenroll, enrolledCourseIds }: {
+      enrolling, setEnrolling, updateEnrollment }: {
       allCourses: any[];
       enrolledCourses: any[];
       course: any;
@@ -13,9 +13,12 @@ export default function Dashboard(
       addNewCourse: () => void;
       deleteCourse: (course: any) => void;
       updateCourse: () => void;
-      enroll: (courseId: string) => void;
-      unenroll: (courseId: string) => void;
-      enrolledCourseIds: Set<string>;
+      // enroll: (courseId: string) => void;
+      // unenroll: (courseId: string) => void;
+      // enrolledCourseIds: Set<string>;
+      enrolling: boolean; 
+      setEnrolling: (enrolling: boolean) => void;
+      updateEnrollment: (courseId: string, enrolled: boolean) => void;
     }
 )
  {
@@ -23,53 +26,19 @@ export default function Dashboard(
   useSelector((state: any) => state.accountReducer);
   
   // Filter courses into enrolled and not-enrolled lists for the dropdowns
-  const myCourses = allCourses.filter(c => enrolledCourseIds.has(c._id));
-  const otherCourses = allCourses.filter(c => !enrolledCourseIds.has(c._id));
+  // const myCourses = allCourses.filter(c => enrolledCourseIds.has(c._id));
+  // const otherCourses = allCourses.filter(c => !enrolledCourseIds.has(c._id));
 
   return (
     <div id="wd-dashboard" style={{ marginLeft: "120px", padding: "20px" }}>
       <h1 id="wd-dashboard-title">Dashboard</h1>
       
-      <div className="mb-4">
-        <h4 className="mb-3">Manage Enrollments</h4>
-        <div className="d-flex align-items-center">
-          
-          <Dropdown className="me-3">
-            <Dropdown.Toggle variant="success" id="wd-enroll-dropdown">
-              Enroll in a Course
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {otherCourses.length > 0 ? (
-                otherCourses.map(c => (
-                  <Dropdown.Item key={c._id} onClick={() => enroll(c._id)}>
-                    {c.name}
-                  </Dropdown.Item>
-                ))
-              ) : (
-                <Dropdown.Item disabled>No new courses available</Dropdown.Item>
-              )}
-            </Dropdown.Menu>
-          </Dropdown>
-          
-          <Dropdown>
-            <Dropdown.Toggle variant="danger" id="wd-unenroll-dropdown">
-              Unenroll from a Course
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {myCourses.length > 0 ? (
-                myCourses.map(c => (
-                  <Dropdown.Item key={c._id} onClick={() => unenroll(c._id)}>
-                    {c.name}
-                  </Dropdown.Item>
-                ))
-              ) : (
-                <Dropdown.Item disabled>You are not enrolled in any courses</Dropdown.Item>
-              )}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
+
+      <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
+          {enrolling ? "My Courses" : "All Courses"}
+        </button>
       <hr />
+
 
       <h5>New Course
         <button className="btn btn-primary float-end"
@@ -96,8 +65,21 @@ export default function Dashboard(
           justifyContent: "start",
         }}
       >
-        {enrolledCourses.map((course) => (
+        {allCourses.map((course) => (
             <div key={course._id} className="wd-dashboard-course">
+                 <h5 className="wd-dashboard-course-title card-title">
+                 {enrolling && (
+              <button onClick={(event) => {
+                        event.preventDefault();
+                        updateEnrollment(course._id, !course.enrolled);
+                      }}
+                      className={`btn ${ course.enrolled ? "btn-danger" : "btn-success" } float-end`} >
+                {course.enrolled ? "Unenroll" : "Enroll"}
+              </button>
+            )}
+            {course.name}
+          </h5>
+
               <Card>
                 <Link
                   to={`/Kambaz/Courses/${encodeURIComponent(course._id)}/Home`}
