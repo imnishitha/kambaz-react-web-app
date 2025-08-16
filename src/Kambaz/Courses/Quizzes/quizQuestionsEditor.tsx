@@ -89,7 +89,6 @@ const handleSaveQuestion = async (questionData: any) => {
     setSaving(true);
     console.log("Saving question:", questionData);
     
-    // Make sure we're passing the correct question object, not a quiz
     const questionToSave = {
       title: questionData.title || "Untitled Question",
       points: questionData.points,
@@ -106,9 +105,10 @@ const handleSaveQuestion = async (questionData: any) => {
     console.log("Question saved successfully:", updatedQuestion);
     
     // Update the questions state with the returned data from server
-    setQuestions(questions.map(q =>
-      q._id === questionData._id ? updatedQuestion : q
-    ));
+    // setQuestions(questions.map(q =>
+    //   q._id === questionData._id ? updatedQuestion : q
+    // ));
+    setQuestions(updatedQuestion);
 
     setEditingQuestionId(null);
   } catch (error) {
@@ -234,7 +234,7 @@ return (
     </div>
 
     <div className="list-group">
-    {questions && questions.map((questionItem) => (
+    {questions && questions.filter(q => q).map((questionItem) => (
         <div key={questionItem._id} className="list-group-item mb-3">
           {editingQuestionId === questionItem._id ? (
             // Question Edit View

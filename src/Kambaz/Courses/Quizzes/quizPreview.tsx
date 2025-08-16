@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button, Form, Card, ListGroup } from "react-bootstrap";
+import { Button, Form, Card, ListGroup, FormControl } from "react-bootstrap";
 import { FaEdit, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import * as quizzesClient from "./client";
-import './index.css'; // <-- Add this import for custom CSS
+import './index.css';
 
 export default function QuizPreview() {
   const { cid, qid } = useParams();
@@ -37,8 +37,17 @@ export default function QuizPreview() {
     fetchQuizData();
   }, [qid]);
 
-  const handleAnswerChange = (questionId: string, answer: any) => {
-    setAnswers({ ...answers, [questionId]: answer });
+  const handleAnswerChange = (questionId: string, answer: any, blankIndex?: number) => {
+    // Check if the answer is for a single-choice question
+    if (blankIndex === undefined) {
+      setAnswers({ ...answers, [questionId]: answer });
+    } else {
+      // For fill-in-the-blank, manage an array of answers
+      const currentBlanks = answers[questionId] || [];
+      const newBlanks = [...currentBlanks];
+      newBlanks[blankIndex] = answer;
+      setAnswers({ ...answers, [questionId]: newBlanks });
+    }
   };
 
   const handleSubmitQuiz = () => {
@@ -101,18 +110,36 @@ export default function QuizPreview() {
               </Card.Header>
               <Card.Body>
                 <p>{currentQuestion.questionText}</p>
-                {currentQuestion.options?.map((option: any, optIndex: number) => (
-                  <Form.Check
-                    key={optIndex}
-                    type="radio"
-                    id={`q-${currentQuestion._id}-opt-${optIndex}`}
-                    name={`question-${currentQuestion._id}`}
-                    label={option.text}
-                    disabled={submitted}
-                    checked={answers[currentQuestion._id] === option.text}
-                    onChange={() => handleAnswerChange(currentQuestion._id, option.text)}
-                  />
-                ))}
+                
+                {/* Conditional Rendering for Question Types */}
+                {currentQuestion.questionType === "FILL_IN_THE_BLANK" ? (
+                  // UI for Fill in the Blank
+                  (currentQuestion.blanks || []).map((blank: any, index: number) => (
+                    <div key={index} className="mb-2">
+                      <Form.Label>{index + 1}.</Form.Label>
+                      <FormControl
+                        type="text"
+                        disabled={submitted}
+                        value={answers[currentQuestion._id]?.[index] || ''}
+                        onChange={(e) => handleAnswerChange(currentQuestion._id, e.target.value, index)}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  // Default UI for Multiple Choice
+                  currentQuestion.options?.map((option: any, optIndex: number) => (
+                    <Form.Check
+                      key={optIndex}
+                      type="radio"
+                      id={`q-${currentQuestion._id}-opt-${optIndex}`}
+                      name={`question-${currentQuestion._id}`}
+                      label={option.text}
+                      disabled={submitted}
+                      checked={answers[currentQuestion._id] === option.text}
+                      onChange={() => handleAnswerChange(currentQuestion._id, option.text)}
+                    />
+                  ))
+                )}
               </Card.Body>
             </Card>
           )}
