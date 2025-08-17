@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Form, Card, ListGroup, FormControl } from "react-bootstrap";
@@ -9,7 +9,7 @@ import './index.css';
 export default function QuizPreview() {
   const { cid, qid } = useParams();
   const navigate = useNavigate();
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  useSelector((state: any) => state.accountReducer);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [quiz, setQuiz] = useState<any>(null);
@@ -114,7 +114,7 @@ export default function QuizPreview() {
                 {/* Conditional Rendering for Question Types */}
                 {currentQuestion.questionType === "FILL_IN_THE_BLANK" ? (
                   // UI for Fill in the Blank
-                  (currentQuestion.blanks || []).map((blank: any, index: number) => (
+                  (currentQuestion.blanks || []).map((_blank: any, index: number) => (
                     <div key={index} className="mb-2">
                       <Form.Label>{index + 1}.</Form.Label>
                       <FormControl

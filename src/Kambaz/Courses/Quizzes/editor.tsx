@@ -1,20 +1,16 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  Form,
-  Row,
-  Col,
-  InputGroup,
   Button,
   Tabs,
   Tab,
   Card,
-  FormControl,
+
 } from "react-bootstrap";
 import * as quizzesClient from "./client";
 import { setCurrentQuiz, updateQuiz } from "./reducer";
-import { FaCheckCircle, FaBan, FaCalendarAlt } from "react-icons/fa";
+import { FaCheckCircle, FaBan } from "react-icons/fa";
 import QuizQuestionsEditor from "./quizQuestionsEditor";
 
 export default function QuizEditor() {

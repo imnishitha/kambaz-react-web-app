@@ -52,7 +52,7 @@ const quizzesSlice = createSlice({
     editQuiz: (state, { payload: quizId }) => {
       state.currentQuiz = state.quizzes.find(
         (q: any) => q._id === quizId
-      );
+      ) || null;
     },
   },
 });
