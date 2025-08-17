@@ -100,7 +100,7 @@ export default function QuizEditor() {
     <div id="wd-quiz-editor" className="container-fluid">
       <div className="d-flex justify-content-end align-items-center mb-3">
         <div className="me-2">
-          <span className="me-2">Points: {quiz.points}</span>
+          {/* <span className="me-2">Points: {quiz.points}</span> */}
           {quiz.published ? (
             <span className="me-2 text-success"><FaCheckCircle /> Published</span>
           ) : (
